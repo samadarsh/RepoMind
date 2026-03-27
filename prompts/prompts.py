@@ -83,66 +83,85 @@ AGGREGATOR_PROMPT = PromptTemplate.from_template(
 
     ### INSTRUCTION:
     You are an expert Software Architect and Technical Writer analyzing a GitHub repository.
-    Even if the repository does not have a README file, you have been provided with detailed summaries of its core code files.
-    Using ONLY this information, generate a comprehensive, highly professional, structured project overview template.
 
-    Your output MUST strictly follow the exact structure below. Do not use any emojis. Keep the tone highly technical and professional. Do not include markdown code block wrappers (like ```markdown), just plain formatted text.
-    
-    You must always include the 4 MANDATORY sections. For the OPTIONAL sections, you should only include them if the repository codebase actually warrants it. If an optional section doesn't make sense for a given repository (e.g. it's too simple, has no architecture, or doesn't need strengths listed), omit that section entirely from your output. Do not print the words "(MANDATORY)" or "(OPTIONAL)" in your final output headers.
+    You are provided with structured summaries of the repository’s code files. The repository may be:
+    - A full application
+    - A machine learning project
+    - A collection of scripts
+    - A notebook-based workflow
+    - Or unstructured/raw code files
+
+    Your task is to generate a clear, professional, and structured technical overview based ONLY on the provided summaries.
+
+    Do NOT assume the repository is a complete product. Adapt your explanation based on what actually exists in the codebase.
+
+    Maintain a highly technical and professional tone. Do not use emojis. Do not include markdown code block wrappers (like ```markdown). Output only clean formatted text.
+
+    ---
+
+    ### RULES:
+
+    - Always strictly follow the section structure below.
+    - Include all MANDATORY sections.
+    - Include OPTIONAL sections ONLY if they are relevant to the repository.
+    - If a section is not applicable (e.g., no clear architecture, no real-world application, or minimal logic), OMIT that section completely.
+    - Do NOT invent details that are not present in the code summaries.
+    - Avoid generic statements like “uses popular libraries” unless they are directly relevant.
+    - Be specific whenever possible (e.g., mention actual transformations, logic, or model types if known).
+
+    ---
 
     ## GitHub Repo Overview
-    [MANDATORY: Identify the repository and provide a brief, professional description of its contents and ultimate goal. Do not invent a 'Project Name' if none exists.]
+    [MANDATORY: Provide a clear, factual description of what exists in the repository. If it is not a complete project, describe it as a codebase, collection of scripts, or experimental work accordingly.]
 
     ⸻
 
     ## What the Repository Does
-    [MANDATORY: Bullet points explaining logic, inputs, and outputs in a clear, professional way]
+    [MANDATORY: Bullet points explaining the actual functionality, logic, and outputs derived from the code.]
 
     ⸻
 
     ## Core Workflow
-    [OPTIONAL: If applicable, provide a simple technical flow (e.g., Input → Processing → Output).]
+    [OPTIONAL: Include ONLY if there is a clear logical flow (e.g., Input → Processing → Output). Skip if the repo is loosely structured.]
 
     ⸻
 
     ## Architecture Breakdown
-    [OPTIONAL: If the repository has a defined architecture, list the critical functional files summarized and give each a bullet point explaining what it handles.]
+    [OPTIONAL: Include ONLY if there are clearly defined modules/files with distinct responsibilities.]
 
     ⸻
 
     ## Key Features
-    [MANDATORY: Identify 2-4 key technical features based on the code analysis.]
+    [MANDATORY: Identify 2–4 concrete technical features based on actual implementation.]
 
     ⸻
 
     ## Strengths of the Repository
-    [OPTIONAL: If applicable, list professional bullet points outlining why this codebase is practical, well-structured, or uniquely useful.]
+    [OPTIONAL: Include ONLY if meaningful strengths can be inferred from structure, clarity, or implementation.]
 
     ⸻
 
     ## Areas for Improvement
-    [OPTIONAL: List 2-4 actionable technical improvements or optimizations that could be added in the future.]
+    [OPTIONAL: Provide 2–4 realistic and actionable technical improvements.]
 
     ⸻
 
     ## Advanced Upgrades
-    [OPTIONAL: If applicable, present 1-3 high-value functional upgrades for scaling or extending the repository.]
+    [OPTIONAL: Suggest 1–3 high-value enhancements ONLY if the repository has scope for extension.]
 
     ⸻
 
     ## Real-World Applications
-    [OPTIONAL: If applicable, detail who this repository is for or practical use cases.]
+    [OPTIONAL: Include ONLY if the repository has clear practical use cases.]
 
     ⸻
 
     ## Tech Concepts Demonstrated
-    [OPTIONAL: List technical skills, patterns, or frameworks shown in the codebase.]
+    [OPTIONAL: List actual technical concepts, patterns, or tools used.]
 
     ⸻
 
     ## One-Line Summary
-    [MANDATORY: A highly professional, single-sentence technical summary of the entire repository.]
-
-    ### FINAL REPOSITORY OVERVIEW:
+    [MANDATORY: Provide a concise, single-sentence technical summary of the repository. Do NOT add any headings after this.]
     """
 )
