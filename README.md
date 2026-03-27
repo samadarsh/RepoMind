@@ -20,33 +20,33 @@ RepoMind is an AI-powered system that takes any GitHub repository link and autom
 ```
 RepoMind/
 │
-├── .env                         # 🔒 Stores your private Groq API Key
-├── .gitignore                   # 🛡️ Ignores venv, .env, outputs, logs
-├── README.md                    # 📝 Project documentation
-├── requirements.txt             # 📦 Dependencies
-├── LICENSE                      # 📄 MIT License
-├── config.py                    # ⚙️ Centralized settings (model name, limits)
+├── .env                           # 🔒 Stores your private Groq API Key
+├── .gitignore                     # 🛡️ Ignores venv, .env, outputs, logs
+├── README.md                      # 📝 Project documentation
+├── requirements.txt               # 📦 Dependencies
+├── LICENSE                        # 📄 MIT License
+├── config.py                      # ⚙️ Centralized settings (model name, limits)
 │
-├── app.py                       # 🖥️ Streamlit UI (Frontend)
-├── chain.py                     # 🧠 Pipeline orchestrator
+├── app.py                         # 🖥️ Streamlit UI (Frontend)
+├── chain.py                       # 🧠 Pipeline orchestrator
 │
-├── core/                        # ⚙️ Core processing engine
-│   ├── classifier.py            # 🏷️ Repository type classification
-│   ├── analyzer.py              # 🔍 Identifies important files
-│   ├── map_step.py              # 📄 File-wise context-aware explanation
-│   ├── aggregator.py            # 🧩 Reduce step (final synthesis)
-│   ├── preprocess.py            # 🧹 File filtering, cleaning & README extraction
-│   ├── repo_loader.py           # 📥 Clone + load repo
-│   └── utils.py                 # 🔧 Utility functions
+├── core/                          # ⚙️ Core processing engine
+│   ├── classifier.py              # 🏷️ Repository type classification
+│   ├── analyzer.py                # 🔍 Identifies important files
+│   ├── map_step.py                # 📄 File-wise context-aware explanation
+│   ├── aggregator.py              # 🧩 Reduce step (final synthesis)
+│   ├── preprocess.py              # 🧹 File filtering, cleaning & README extraction
+│   ├── repo_loader.py             # 📥 Clone + load repo
+│   └── utils.py                   # 🔧 Utility functions
 │
-├── prompts/                     # 💬 LLM prompt templates
-│   └── prompts.py               # All prompt definitions (Classifier, Map, Reduce)
+├── prompts/                       # 💬 LLM prompt templates
+│   └── prompts.py                 # All prompt definitions (Classifier, Map, Reduce)
 │
-├── outputs/                     # 📊 Auto-generated analysis results
-│   ├── json/summaries.json      # Individual file explanations
-│   └── markdown/final_output.txt# Final aggregated overview
+├── outputs/                       # 📊 Auto-generated analysis results
+│   ├── json/summaries.json        # Individual file explanations
+│   └── markdown/final_output.txt  # Final aggregated overview
 │
-└── tests/                       # 🧪 Unit tests
+└── tests/                         # 🧪 Unit tests
     ├── test_analyzer.py
     ├── test_map_step.py
     └── test_preprocess.py
