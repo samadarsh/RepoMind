@@ -16,23 +16,7 @@ RepoMind is an AI-powered system that takes any GitHub repository link and autom
 
 ## ⚙️ Core Architecture Breakdown
 
-```mermaid
-graph TD
-    User([GitHub URL Input]) --> UI[app.py<br>Streamlit Frontend]
-    UI --> Chain{chain.py<br>Orchestrator}
-    
-    subgraph "Map-Reduce Inference Pipeline (core/)"
-        Chain --> Loader[repo_loader.py<br>Clone Git Repo]
-        Loader --> Preprocess[preprocess.py<br>Filter Noise]
-        Preprocess --> Analyzer[analyzer.py<br>Identify Target Scripts]
-        Analyzer --> Mapper[map_step.py<br>Map Files to Groq LLM]
-        Mapper --> Aggregator[aggregator.py<br>Reduce into Markdown]
-    end
 
-    Mapper -.-> JSON[(outputs/json/summaries.json)]
-    Aggregator -.-> MD[(outputs/markdown/final_output.txt)]
-    Aggregator --> UI
-```
 
 1. **`app.py`** - The primary Streamlit frontend and UI entry point.
 2. **`chain.py`** - The master controller orchestrating the entire Map-Reduce workflow.
