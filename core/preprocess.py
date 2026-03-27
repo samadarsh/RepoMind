@@ -42,6 +42,17 @@ def read_file(file_path):
     except:
         return ""
 
+def extract_readme(repo_path):
+    """
+    Looks specifically for the top-level README file (case-insensitive) and reads it.
+    """
+    for file in os.listdir(repo_path):
+        if file.lower() in ["readme.md", "readme.txt", "readme"]:
+            readme_path = os.path.join(repo_path, file)
+            return read_file(readme_path)
+    
+    return ""
+
 # 5. Test It
 
 if __name__ == "__main__":

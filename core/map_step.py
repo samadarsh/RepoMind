@@ -20,10 +20,10 @@ class MapStep:
         )
         self.parser = StrOutputParser()
 
-    def generate_explanations(self, file_paths):
+    def generate_explanations(self, file_paths, repo_name: str, repo_class: str):
         """
         Iterates over the given file paths, reads their content,
-        and uses the LLM to generate an explanation for each file.
+        and uses the LLM to generate an explanation for each file using multi-signal awareness.
         Returns a dictionary mapping file path to its explanation.
         """
         explanations = {}
@@ -47,6 +47,8 @@ class MapStep:
                     content = content[:max_chars] + "\n... [CONTENT TRUNCATED FOR LENGTH]"
 
                 explanation = chain.invoke({
+                    "repo_name": repo_name,
+                    "repo_class": repo_class,
                     "file_path": file_path,
                     "file_content": content
                 })

@@ -19,10 +19,10 @@ class Aggregator:
         )
         self.parser = StrOutputParser()
 
-    def generate_overview(self, explanations: dict) -> str:
+    def generate_overview(self, explanations: dict, repo_name: str, repo_class: str, readme_content: str) -> str:
         """
-        Takes a dictionary mapping file paths to their explanations,
-        combines them, and generates a cohesive full-repository read.
+        Takes a dictionary mapping file paths to their explanations alongside contextual
+        repository signals, and generates a cohesive full-repository read.
         """
         if not explanations:
             return "No file explanations provided."
@@ -44,6 +44,9 @@ class Aggregator:
 
         try:
             overview = chain.invoke({
+                "repo_name": repo_name,
+                "repo_class": repo_class,
+                "readme_content": readme_content[:15000] if readme_content else "None provided.",
                 "file_summaries": summaries_text
             })
             print("✅ Final overview generated successfully!\n")

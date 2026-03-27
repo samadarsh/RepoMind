@@ -1,6 +1,42 @@
 from langchain_core.prompts import PromptTemplate
 
 # -------------------------------------------------------------------
+# CLASSIFIER PROMPT
+# -------------------------------------------------------------------
+
+CLASSIFIER_PROMPT = PromptTemplate.from_template(
+    """
+    ### REPOSITORY NAME: {repo_name}
+    
+    ### README CONTENT (IF ANY):
+    {readme_content}
+    
+    ### REPOSITORY FILE LIST:
+    {file_list}
+    
+    ### INSTRUCTION:
+    You are an expert Software Architect identifying the nature of a GitHub repository.
+    Based on the repository name, file list, and README content provided, classify this project into ONE of the following types:
+    - Portfolio Website
+    - Machine Learning Project
+    - Web Application
+    - Library/SDK
+    - Script Collection
+    - Data Science Notebook
+    - Backend API
+    - Unknown
+
+    Output ONLY a valid JSON object with standard double quotes matching this exact structure:
+    {{
+        "type": "The Exact Classification String",
+        "reason": "A 1-2 sentence explanation of why it fits this classification based on the files/README."
+    }}
+    
+    Ensure your response contains NO markdown formatting wrappers and NO additional text.
+    """
+)
+
+# -------------------------------------------------------------------
 # ANALYZER PROMPT
 # -------------------------------------------------------------------
 
@@ -52,6 +88,10 @@ ANALYZER_PROMPT = PromptTemplate.from_template(
 
 MAP_STEP_PROMPT = PromptTemplate.from_template(
     """
+    ### REPOSITORY CONTEXT:
+    Name: {repo_name}
+    Classification: {repo_class}
+
     ### FILE PATH:
     {file_path}
 
@@ -59,10 +99,12 @@ MAP_STEP_PROMPT = PromptTemplate.from_template(
     {file_content}
 
     ### INSTRUCTION:
-    You are a senior technical writer and software architect. Your job is to explain the file provided above.
+    You are a senior technical writer explaining a single file within the broader context of the `{repo_name}` project (categorized as a {repo_class}).
+
+    WARNING: Do NOT infer or assume the entire repository's fundamental purpose based on this single file. Explain ONLY what this file contributes to the broader ecosystem.
 
     Please provide a clear, concise, and structured explanation of:
-    1. **Purpose**: What is the main goal of this file?
+    1. **Purpose**: What is the specific goal of this file within the {repo_class}?
     2. **Core Components**: What are the primary functions, classes, or logic blocks within this file and what do they do?
     3. **Role in Project**: How does this file fit into the broader project architecture context?
 
@@ -78,6 +120,13 @@ MAP_STEP_PROMPT = PromptTemplate.from_template(
 
 AGGREGATOR_PROMPT = PromptTemplate.from_template(
     """
+    ### PROJECT CONTEXT
+    Repository Name: {repo_name}
+    Classification: {repo_class}
+
+    ### ORIGINAL README CONTENT (IF ANY):
+    {readme_content}
+
     ### INDIVIDUAL FILE EXPLANATIONS:
     {file_summaries}
 
