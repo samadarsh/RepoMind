@@ -54,10 +54,12 @@ class RepoExplainerChain:
         final_report = self.aggregator.generate_overview(explanations)
 
         # 6. Save outputs per user request
-        os.makedirs("outputs", exist_ok=True)
-        with open("outputs/summaries.json", "w", encoding="utf-8") as f:
+        os.makedirs("outputs/json", exist_ok=True)
+        os.makedirs("outputs/markdown", exist_ok=True)
+        
+        with open("outputs/json/summaries.json", "w", encoding="utf-8") as f:
             json.dump(explanations, f, indent=4)
-        with open("outputs/final_output.txt", "w", encoding="utf-8") as f:
+        with open("outputs/markdown/final_output.txt", "w", encoding="utf-8") as f:
             f.write(final_report)
 
         return final_report

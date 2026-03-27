@@ -22,3 +22,7 @@ repo/
 # Temp Files
 *.txt
 !requirements.txt
+
+# Generated Outputs and Logs
+outputs/
+logs/
