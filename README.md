@@ -11,7 +11,7 @@ RepoMind is an AI-powered system that takes any GitHub repository link and autom
 - **Context-Aware Classification**: Before analyzing individual files, the system classifies the entire repository (e.g., Portfolio Website, ML Project, Web App, Backend API) using multi-signal reasoning from the repo name, file structure, and README content.
 - **Intelligent Processing**: Utilizes LangChain and the Groq API to evaluate the repository with full project context passed into every LLM call.
 - **Map-Reduce Architecture**: Splits the analysis. First, it maps individual files with anti-bias guardrails, explaining what each file contributes to the broader project. Then, it reduces those summaries into a cohesive, high-level structural overview.
-- **Beautiful Output**: Returns a strictly formatted, professional overview (identifying workflows, tech concepts, key features, and areas for improvement) directly into a minimalist Streamlit interface.
+- **Structured Output**: Returns a strictly formatted, professional overview (identifying workflows, tech concepts, key features, and areas for improvement) directly into a minimalist Streamlit interface.
 
 ⸻
 
