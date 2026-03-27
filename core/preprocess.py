@@ -3,7 +3,7 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
-from repo_loader import clone_repo, get_all_files
+from core.repo_loader import clone_repo, get_all_files
 
 # 1. Define Ignore Rules
 

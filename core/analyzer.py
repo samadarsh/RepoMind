@@ -5,7 +5,8 @@ from langchain_core.output_parsers import JsonOutputParser
 from langchain_core.exceptions import OutputParserException
 from dotenv import load_dotenv
 
-from prompts import ANALYZER_PROMPT
+from prompts.prompts import ANALYZER_PROMPT
+import config
 
 # Load environment variables
 load_dotenv()
@@ -16,7 +17,7 @@ class Analyzer:
         self.llm = ChatGroq(
             temperature=0,
             groq_api_key=os.getenv("GROQ_API_KEY"),
-            model_name="openai/gpt-oss-120b"
+            model_name=config.MODEL_NAME
         )
 
         self.parser = JsonOutputParser()
@@ -30,7 +31,7 @@ class Analyzer:
 
         try:
             response = chain.invoke({
-                "file_list": "\n".join(file_list[:200])  # Increased limit so real code files aren't truncated out
+                "file_list": "\n".join(file_list[:config.MAX_FILES])  # Limiting per user config
             })
 
             # Debug (optional)

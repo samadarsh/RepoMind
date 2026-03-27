@@ -3,7 +3,8 @@ from langchain_groq import ChatGroq
 from langchain_core.output_parsers import StrOutputParser
 from dotenv import load_dotenv
 
-from prompts import AGGREGATOR_PROMPT
+from prompts.prompts import AGGREGATOR_PROMPT
+import config
 
 # Load environment variables
 load_dotenv()
@@ -14,7 +15,7 @@ class Aggregator:
         self.llm = ChatGroq(
             temperature=0,
             groq_api_key=os.getenv("GROQ_API_KEY"),
-            model_name="openai/gpt-oss-120b"
+            model_name=config.MODEL_NAME
         )
         self.parser = StrOutputParser()
 

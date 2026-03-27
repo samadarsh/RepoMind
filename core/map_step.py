@@ -3,8 +3,9 @@ from langchain_groq import ChatGroq
 from langchain_core.output_parsers import StrOutputParser
 from dotenv import load_dotenv
 
-from preprocess import read_file
-from prompts import MAP_STEP_PROMPT
+from core.preprocess import read_file
+from prompts.prompts import MAP_STEP_PROMPT
+import config
 
 # Load environment variables
 load_dotenv()
@@ -15,7 +16,7 @@ class MapStep:
         self.llm = ChatGroq(
             temperature=0,
             groq_api_key=os.getenv("GROQ_API_KEY"),
-            model_name="openai/gpt-oss-120b"
+            model_name=config.MODEL_NAME
         )
         self.parser = StrOutputParser()
 

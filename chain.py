@@ -1,11 +1,13 @@
 import os
 import shutil
 
-from repo_loader import clone_repo, get_all_files
-from preprocess import filter_files, keep_important_files
-from analyzer import Analyzer
-from map_step import MapStep
-from aggregator import Aggregator
+import json
+
+from core.repo_loader import clone_repo, get_all_files
+from core.preprocess import filter_files, keep_important_files
+from core.analyzer import Analyzer
+from core.map_step import MapStep
+from core.aggregator import Aggregator
 
 class RepoExplainerChain:
     def __init__(self):
@@ -50,5 +52,12 @@ class RepoExplainerChain:
 
         # 5. Reduce Phase: Combine into master overview
         final_report = self.aggregator.generate_overview(explanations)
+
+        # 6. Save outputs per user request
+        os.makedirs("outputs", exist_ok=True)
+        with open("outputs/summaries.json", "w", encoding="utf-8") as f:
+            json.dump(explanations, f, indent=4)
+        with open("outputs/final_output.txt", "w", encoding="utf-8") as f:
+            f.write(final_report)
 
         return final_report
