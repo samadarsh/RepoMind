@@ -81,7 +81,7 @@ URL → Validate → Clone (temp dir) → Extract README → Classify Repo → F
 
 ### Prerequisites
 - Python 3.9+ 
-- A free [Groq API Key](https://console.groq.com/keys)
+- A [Groq API Key](https://console.groq.com/keys) (free)
 
 ### Installation
 
