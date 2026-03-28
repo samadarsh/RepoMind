@@ -11,7 +11,7 @@ RepoMind is an AI-powered system that takes any GitHub repository link and autom
 - **Context-Aware Classification**: Before analyzing individual files, the system classifies the entire repository (e.g., Portfolio Website, ML Project, Web App, Backend API) using multi-signal reasoning from the repo name, file structure, and README content.
 - **Intelligent Processing**: Utilizes LangChain and the Groq API to evaluate the repository with full project context passed into every LLM call.
 - **Map-Reduce Architecture**: Splits the analysis. First, it maps individual files with anti-bias guardrails, explaining what each file contributes to the broader project. Then, it reduces those summaries into a cohesive, high-level structural overview.
-- **Structured Output**: Returns a strictly formatted, professional overview (identifying workflows, tech concepts, key features, and areas for improvement) directly into a minimalist Streamlit interface.
+- **Beautiful Output**: Returns a strictly formatted, professional overview (identifying workflows, tech concepts, key features, and areas for improvement) directly into a minimalist Streamlit interface.
 
 ⸻
 
@@ -20,33 +20,36 @@ RepoMind is an AI-powered system that takes any GitHub repository link and autom
 ```
 RepoMind/
 │
-├── .env                           # 🔒 Stores your private Groq API Key
-├── .gitignore                     # 🛡️ Ignores venv, .env, outputs, logs
-├── README.md                      # 📝 Project documentation
-├── requirements.txt               # 📦 Dependencies
-├── LICENSE                        # 📄 MIT License
-├── config.py                      # ⚙️ Centralized settings (model name, limits)
+├── .env                         # 🔒 Stores your private Groq API Key
+├── .gitignore                   # 🛡️ Ignores venv, .env, outputs, logs
+├── README.md                    # 📝 Project documentation
+├── requirements.txt             # 📦 Dependencies
+├── LICENSE                      # 📄 MIT License
+├── config.py                    # ⚙️ Centralized settings (model name, limits)
 │
-├── app.py                         # 🖥️ Streamlit UI (Frontend)
-├── chain.py                       # 🧠 Pipeline orchestrator
+├── app.py                       # 🖥️ Streamlit UI (Frontend)
+├── chain.py                     # 🧠 Pipeline orchestrator
 │
-├── core/                          # ⚙️ Core processing engine
-│   ├── classifier.py              # 🏷️ Repository type classification
-│   ├── analyzer.py                # 🔍 Identifies important files
-│   ├── map_step.py                # 📄 File-wise context-aware explanation
-│   ├── aggregator.py              # 🧩 Reduce step (final synthesis)
-│   ├── preprocess.py              # 🧹 File filtering, cleaning & README extraction
-│   ├── repo_loader.py             # 📥 Clone + load repo
-│   └── utils.py                   # 🔧 Utility functions
+├── core/                        # ⚙️ Core processing engine
+│   ├── classifier.py            # 🏷️ Repository type classification
+│   ├── analyzer.py              # 🔍 Identifies important files
+│   ├── map_step.py              # 📄 File-wise context-aware explanation
+│   ├── aggregator.py            # 🧩 Reduce step (final synthesis)
+│   ├── preprocess.py            # 🧹 File filtering, cleaning & README extraction
+│   ├── repo_loader.py           # 📥 URL validation, temp-dir cloning & file walking
+│   └── utils.py                 # 🔧 Utility functions
 │
-├── prompts/                       # 💬 LLM prompt templates
-│   └── prompts.py                 # All prompt definitions (Classifier, Map, Reduce)
+├── prompts/                     # 💬 LLM prompt templates
+│   └── prompts.py               # All prompt definitions (Classifier, Map, Reduce)
 │
-├── outputs/                       # 📊 Auto-generated analysis results
-│   ├── json/summaries.json        # Individual file explanations
-│   └── markdown/final_output.txt  # Final aggregated overview
+├── outputs/                     # 📊 Auto-generated analysis results
+│   ├── json/summaries.json      # Individual file explanations
+│   └── markdown/final_output.txt# Final aggregated overview
 │
-└── tests/                         # 🧪 Unit tests
+├── logs/                        # 📋 Runtime logs (rotating, 5MB max)
+│   └── app.log                  # Pipeline execution logs
+│
+└── tests/                       # 🧪 Unit tests
     ├── test_analyzer.py
     ├── test_map_step.py
     └── test_preprocess.py
@@ -58,17 +61,17 @@ RepoMind/
 
 ### Pipeline Flow
 ```
-URL → Clone → Extract README → Classify Repo → Filter → Analyze → Map (with context) → Aggregate (with context) → Output
+URL → Validate → Clone (temp dir) → Extract README → Classify Repo → Filter → Analyze → Map (with context) → Aggregate (with context) → Output
 ```
 
 1. **`app.py`** — The primary Streamlit frontend and UI entry point.
-2. **`chain.py`** — The master controller orchestrating the entire pipeline. Extracts the repo name, runs classification, and cascades context through every step.
+2. **`chain.py`** — The master controller orchestrating the entire pipeline. Extracts the repo name, runs classification, cascades context through every step, tracks execution time, and logs pipeline metrics.
 3. **`core/classifier.py`** — Uses the repo name, file list, and README content to classify the repository type (Portfolio Website, ML Project, Web App, etc.) via structured JSON output.
 4. **`core/analyzer.py`** — Identifies the most critical entry-point files among the filtered list.
 5. **`core/map_step.py`** — Invokes the LLM to explain each individual file with full repo context and anti-bias guardrails preventing single-file dominance.
 6. **`core/aggregator.py`** — Synthesizes all file explanations, repo classification, and README content into the final structured overview.
 7. **`core/preprocess.py`** — Handles file filtering, noise removal, and top-level README extraction.
-8. **`core/repo_loader.py`** — Handles `git clone` operations and file tree walking.
+8. **`core/repo_loader.py`** — Validates GitHub URLs, clones repositories into isolated temp directories (shallow clone), and walks the file tree. Includes rotating log handler.
 9. **`prompts/prompts.py`** — The AI Engine Room containing all distinct LLM instruction templates (Classifier, Analyzer, Map Step, Aggregator).
 10. **`config.py`** — Centralized configuration for model name and processing limits.
 

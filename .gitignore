@@ -26,3 +26,6 @@ repo/
 # Generated Outputs and Logs
 outputs/
 logs/
+
+# Private Learning Notes
+LEARNING_NOTES.md
