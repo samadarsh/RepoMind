@@ -11,7 +11,7 @@ RepoMind is an AI-powered system that takes any GitHub repository link and autom
 - **Context-Aware Classification**: Before analyzing individual files, the system classifies the entire repository (e.g., Portfolio Website, ML Project, Web App, Backend API) using multi-signal reasoning from the repo name, file structure, and README content.
 - **Intelligent Processing**: Utilizes LangChain and the Groq API to evaluate the repository with full project context passed into every LLM call.
 - **Map-Reduce Architecture**: Splits the analysis. First, it maps individual files with anti-bias guardrails, explaining what each file contributes to the broader project. Then, it reduces those summaries into a cohesive, high-level structural overview.
-- **Beautiful Output**: Returns a strictly formatted, professional overview (identifying workflows, tech concepts, key features, and areas for improvement) directly into a minimalist Streamlit interface.
+- **Structured Output**: Returns a strictly formatted, professional overview (identifying workflows, tech concepts, key features, and areas for improvement) directly into a minimalist Streamlit interface.
 
 ⸻
 
@@ -20,36 +20,36 @@ RepoMind is an AI-powered system that takes any GitHub repository link and autom
 ```
 RepoMind/
 │
-├── .env                         # 🔒 Stores your private Groq API Key
-├── .gitignore                   # 🛡️ Ignores venv, .env, outputs, logs
-├── README.md                    # 📝 Project documentation
-├── requirements.txt             # 📦 Dependencies
-├── LICENSE                      # 📄 MIT License
-├── config.py                    # ⚙️ Centralized settings (model name, limits)
+├── .env                            # 🔒 Stores your private Groq API Key
+├── .gitignore                      # 🛡️ Ignores venv, .env, outputs, logs
+├── README.md                       # 📝 Project documentation
+├── requirements.txt                # 📦 Dependencies
+├── LICENSE                         # 📄 MIT License
+├── config.py                       # ⚙️ Centralized settings (model name, limits)
 │
-├── app.py                       # 🖥️ Streamlit UI (Frontend)
-├── chain.py                     # 🧠 Pipeline orchestrator
+├── app.py                          # 🖥️ Streamlit UI (Frontend)
+├── chain.py                        # 🧠 Pipeline orchestrator
 │
-├── core/                        # ⚙️ Core processing engine
-│   ├── classifier.py            # 🏷️ Repository type classification
-│   ├── analyzer.py              # 🔍 Identifies important files
-│   ├── map_step.py              # 📄 File-wise context-aware explanation
-│   ├── aggregator.py            # 🧩 Reduce step (final synthesis)
-│   ├── preprocess.py            # 🧹 File filtering, cleaning & README extraction
-│   ├── repo_loader.py           # 📥 URL validation, temp-dir cloning & file walking
-│   └── utils.py                 # 🔧 Utility functions
+├── core/                           # ⚙️ Core processing engine
+│   ├── classifier.py               # 🏷️ Repository type classification
+│   ├── analyzer.py                 # 🔍 Identifies important files
+│   ├── map_step.py                 # 📄 File-wise context-aware explanation
+│   ├── aggregator.py               # 🧩 Reduce step (final synthesis)
+│   ├── preprocess.py               # 🧹 File filtering, cleaning & README extraction
+│   ├── repo_loader.py              # 📥 URL validation, temp-dir cloning & file walking
+│   └── utils.py                    # 🔧 Utility functions
 │
-├── prompts/                     # 💬 LLM prompt templates
-│   └── prompts.py               # All prompt definitions (Classifier, Map, Reduce)
+├── prompts/                        # 💬 LLM prompt templates
+│   └── prompts.py                  # All prompt definitions (Classifier, Map, Reduce)
 │
-├── outputs/                     # 📊 Auto-generated analysis results
-│   ├── json/summaries.json      # Individual file explanations
-│   └── markdown/final_output.txt# Final aggregated overview
+├── outputs/                        # 📊 Auto-generated analysis results
+│   ├── json/summaries.json         # Individual file explanations
+│   └── markdown/final_output.txt   # Final aggregated overview
 │
-├── logs/                        # 📋 Runtime logs (rotating, 5MB max)
-│   └── app.log                  # Pipeline execution logs
+├── logs/                           # 📋 Runtime logs (rotating, 5MB max)
+│   └── app.log                     # Pipeline execution logs
 │
-└── tests/                       # 🧪 Unit tests
+└── tests/                          # 🧪 Unit tests
     ├── test_analyzer.py
     ├── test_map_step.py
     └── test_preprocess.py
