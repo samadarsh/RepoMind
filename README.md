@@ -36,8 +36,7 @@ RepoMind/
 │   ├── map_step.py                 # 📄 File-wise context-aware explanation
 │   ├── aggregator.py               # 🧩 Reduce step (final synthesis)
 │   ├── preprocess.py               # 🧹 File filtering, cleaning & README extraction
-│   ├── repo_loader.py              # 📥 URL validation, temp-dir cloning & file walking
-│   └── utils.py                    # 🔧 Utility functions
+│   └── repo_loader.py              # 📥 URL validation, temp-dir cloning & file walking
 │
 ├── prompts/                        # 💬 LLM prompt templates
 │   └── prompts.py                  # All prompt definitions (Classifier, Map, Reduce)
