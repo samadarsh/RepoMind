@@ -17,7 +17,9 @@ class Analyzer:
         self.llm = ChatGroq(
             temperature=0,
             groq_api_key=os.getenv("GROQ_API_KEY"),
-            model_name=config.MODEL_NAME
+            model_name=config.MODEL_NAME,
+            # On a rate limit (free tier: 8,000 tokens a minute), wait and retry
+            max_retries=config.MAX_RETRIES
         )
 
         self.parser = JsonOutputParser()

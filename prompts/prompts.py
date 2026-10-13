@@ -108,7 +108,7 @@ MAP_STEP_PROMPT = PromptTemplate.from_template(
     2. **Core Components**: What are the primary functions, classes, or logic blocks within this file and what do they do?
     3. **Role in Project**: How does this file fit into the broader project architecture context?
 
-    Keep your explanation readable and professional. Avoid overly verbose descriptions. You may use bullet points and bold text for clarity.
+    Keep your explanation readable and professional, and under 120 words. You may use bullet points and bold text for clarity.
 
     ### EXPLANATION:
     """

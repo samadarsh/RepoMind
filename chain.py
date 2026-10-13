@@ -5,6 +5,8 @@ import json
 import shutil
 import logging
 
+import config
+
 from core.repo_loader import clone_repo, get_all_files
 from core.preprocess import filter_files, keep_important_files, extract_readme
 from core.analyzer import Analyzer
@@ -62,6 +64,7 @@ class RepoExplainerChain:
 
             # 5. Analyze Importance
             important_files = self.analyzer.extract_important_files(files)
+            important_files = important_files[: config.MAX_IMPORTANT_FILES]
             logger.info(f"[{repo_name}] Important files identified: {len(important_files)}")
             
             if not important_files:

@@ -16,7 +16,9 @@ class MapStep:
         self.llm = ChatGroq(
             temperature=0,
             groq_api_key=os.getenv("GROQ_API_KEY"),
-            model_name=config.MODEL_NAME
+            model_name=config.MODEL_NAME,
+            # On a rate limit (free tier: 8,000 tokens a minute), wait and retry
+            max_retries=config.MAX_RETRIES
         )
         self.parser = StrOutputParser()
 
@@ -41,8 +43,8 @@ class MapStep:
                 continue
 
             try:
-                # We cap content to a reasonable length just to prevent exceeding token limits on gigantic files
-                max_chars = 30000 
+                # Cap each file so one request fits Groq's free-tier limit
+                max_chars = config.MAP_MAX_CHARS
                 if len(content) > max_chars:
                     content = content[:max_chars] + "\n... [CONTENT TRUNCATED FOR LENGTH]"
 

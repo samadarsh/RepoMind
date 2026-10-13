@@ -15,7 +15,9 @@ class Aggregator:
         self.llm = ChatGroq(
             temperature=0,
             groq_api_key=os.getenv("GROQ_API_KEY"),
-            model_name=config.MODEL_NAME
+            model_name=config.MODEL_NAME,
+            # On a rate limit (free tier: 8,000 tokens a minute), wait and retry
+            max_retries=config.MAX_RETRIES
         )
         self.parser = StrOutputParser()
 
@@ -32,6 +34,8 @@ class Aggregator:
         # Constructing the context payload
         summaries_text = ""
         for file_path, exp in explanations.items():
+            if len(exp) > config.SUMMARY_MAX_CHARS:
+                exp = exp[:config.SUMMARY_MAX_CHARS] + " ..."
             summaries_text += f"\n\n--- FILE: {file_path} ---\n{exp}\n"
 
         # Capping context size for safety (optional safeguard)
@@ -46,7 +50,11 @@ class Aggregator:
             overview = chain.invoke({
                 "repo_name": repo_name,
                 "repo_class": repo_class,
-                "readme_content": readme_content[:15000] if readme_content else "None provided.",
+                "readme_content": (
+                    readme_content[: config.README_MAX_CHARS]
+                    if readme_content
+                    else "None provided."
+                ),
                 "file_summaries": summaries_text
             })
             print("✅ Final overview generated successfully!\n")
