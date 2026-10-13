@@ -4,14 +4,16 @@ from langchain_core.output_parsers import JsonOutputParser
 from langchain_core.exceptions import OutputParserException
 
 from prompts.prompts import CLASSIFIER_PROMPT
-from config import MODEL_NAME
+import config
 
 class Classifier:
     def __init__(self):
         self.llm = ChatGroq(
             temperature=0,
             groq_api_key=os.getenv("GROQ_API_KEY"),
-            model_name=MODEL_NAME
+            model_name=config.MODEL_NAME,
+            # On a rate limit (free tier: 8,000 tokens a minute), wait and retry
+            max_retries=config.MAX_RETRIES
         )
         self.parser = JsonOutputParser()
 
@@ -22,10 +24,14 @@ class Classifier:
         print(f"\n🧠 Classifying the intention of repository: {repo_name}...")
 
         # Cap the file list so we don't blow context windows on massive monorepos
-        files_text = "\n".join(file_list[:300])
+        files_text = "\n".join(file_list[:config.CLASSIFIER_MAX_FILES])
 
         # Cap the README to a reasonable length
-        readme_text = readme_content[:15000] if readme_content else "No README provided."
+        readme_text = (
+            readme_content[: config.README_MAX_CHARS]
+            if readme_content
+            else "No README provided."
+        )
 
         chain = CLASSIFIER_PROMPT | self.llm
 
